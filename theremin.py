@@ -10,7 +10,7 @@ import waveforms
 
 TRIG_PIN = 24
 ECHO_PIN = 23
-SENSOR_SAMPLE_PERIOD_SEC = 0.080
+SENSOR_SAMPLE_PERIOD_SEC = 0.100
 AUTOTUNE = True
 MAX_DIST_CM = 80
 CM_PER_SEMITONE = 1.5
@@ -47,7 +47,7 @@ GPIO.setup(ECHO_PIN, GPIO.IN)
 # create and boot the server
 # raspberry pi hardware doesn't support duplex
 s = Server(duplex=0, buffersize=1024).boot()
-s.amp = 0.5
+s.amp = 0.1
 
 # start the audio server, and wait a bit so we don't get weird blips as starting-up artifacts
 s.start()
@@ -76,17 +76,20 @@ try:
         else:
             volume.setValue(1)
 
+            # if this is the first pitch measurement, don't interpolate
+            # (so that previous irrelevant pitch information doesn't get mixed in)
+            freq.setTime(0 if out_of_range else SENSOR_SAMPLE_PERIOD_SEC)
+
             # calculate semitone delta from reference frequency (at 20cm), based on distance
             # closer to the sensor should be higher pitched, like real theremins
             semitones_delta = (20 - distance_cm) / CM_PER_SEMITONE
             if AUTOTUNE:
                 semitones_delta = int(semitones_delta)
-            
-            # if this is the first pitch measurement, don't interpolate
-            # (so that previous irrelevant pitch information doesn't get mixed in)
-            freq.setTime(0 if out_of_range else SENSOR_SAMPLE_PERIOD_SEC)
-
+            # set frequency
             freq.setValue(FREQ_AT_20_CM * 2**(semitones_delta / 12))
+
+            set_vol = s.amp * volume.value * waveforms.loudness_correction_factor(freq.value)
+            print(f"{freq.value:.1f} Hz, amplitude {set_vol:.3f}")
 
             out_of_range = False
             n_measurements_out_of_range = 0
