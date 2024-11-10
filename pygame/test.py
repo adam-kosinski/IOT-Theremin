@@ -3,12 +3,12 @@ import numpy as np
 import time
 
 # Initialize Pygame mixer
-pygame.mixer.init(frequency=44100, size=-16, channels=1, buffer=1024)
+pygame.mixer.init(frequency=44100, size=-16, channels=1, buffer=4096)
 
 # Define parameters
 frequency = 440  # Frequency of the sine wave (Hz)
 sample_rate = 44100  # Sample rate (samples per second)
-duration = 1.0  # Duration of the sound (seconds)
+duration = 5.0  # Duration of the sound (seconds)
 
 # Generate the sine wave
 n_samples = int(sample_rate * duration)

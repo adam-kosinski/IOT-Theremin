@@ -11,7 +11,7 @@ SENSOR_SAMPLE_PERIOD_MS = 0.060
 
 
 # class to record a signal and fade in / fade out at the ends to prevent clicking
-class FadedRecording:
+class Recording:
     fade_time = 0.1
     
     def __init__(self, signal, filename):
@@ -28,7 +28,7 @@ class FadedRecording:
 
 
 # create and boot the server
-s = Server().boot()
+s = Server(duplex=0, buffersize=1024).boot()
 # drop the gain by 20 dB.
 # s.amp = 0.1
 # start the audio server, and wait a bit so we don't get weird blips as starting-up artifacts
@@ -41,9 +41,6 @@ time.sleep(0.1)
 freq = SigTo(value=440, time=SENSOR_SAMPLE_PERIOD_MS, init=440)
 a = Sine(freq).out()
 
-fader = Fader(fadein=0.5, fadeout=0.5)
-rec_target = Mix(a, mul=fader)
-
 for i in range(100):
     f = float(880 + 300 * np.sin(i / 5))
     freq.setValue(f)
@@ -51,7 +48,7 @@ for i in range(100):
 
     # record at arbitrary point
     if i == 10:
-        rec = FadedRecording(a, "./recording.wav")
+        rec = Recording(a, "./recording.wav")
     if i == 70:
         rec.stop_recording()
         print("stopped recording")

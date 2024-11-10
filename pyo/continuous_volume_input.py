@@ -12,7 +12,7 @@ SENSOR_SAMPLE_PERIOD_MS = 0.060
 
 
 # create and boot the server
-s = Server().boot()
+s = Server(duplex=0, buffersize=1024).boot()
 s.amp = 0.5
 # start the audio server, and wait a bit so we don't get weird blips as starting-up artifacts
 s.start()

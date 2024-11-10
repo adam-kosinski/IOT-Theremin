@@ -6,9 +6,8 @@ from pyo import *
 import time
 
 # create and boot the server
-s = Server().boot()
+s = Server(duplex=0, buffersize=1024).boot()
 
-s,setOutputDevice(0)
 # drop the gain by 20 dB.
 s.amp = 0.1
 # start the audio server, and wait a bit so we don't get weird blips as starting-up artifacts
