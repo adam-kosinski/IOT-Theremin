@@ -51,7 +51,7 @@ s.start()
 time.sleep(0.1)
 
 # interpolating signals to control base frequency and volume
-freq = SigTo(value=440, time=SENSOR_SAMPLE_PERIOD_SEC, init=440)
+freq = SigTo(value=FREQ_AT_20_CM, time=SENSOR_SAMPLE_PERIOD_SEC, init=FREQ_AT_20_CM)
 volume = SigTo(value=0, time=SENSOR_SAMPLE_PERIOD_SEC, init=0)
 
 # sine with multiple harmonics
@@ -64,7 +64,6 @@ output = Sine(
 output.out()
 
 try:
-    semitones = 0
     while True:
         distance_cm = distance_measurement()
         print("distance cm:", distance_cm)
@@ -75,16 +74,16 @@ try:
         else:
             volume.setValue(1)
 
-        # calculate semitone delta from reference frequency (at 20cm), based on distance
-        # closer to the sensor should be higher pitched, like real theremins
-        semitones_delta = (20 - distance_cm) / CM_PER_SEMITONE
-        if AUTOTUNE:
-            semitones_delta = int(semitones_delta)
-        
-        freq.setValue(FREQ_AT_20_CM * 2**(semitones_delta / 12))
+            # calculate semitone delta from reference frequency (at 20cm), based on distance
+            # closer to the sensor should be higher pitched, like real theremins
+            semitones_delta = (20 - distance_cm) / CM_PER_SEMITONE
+            if AUTOTUNE:
+                semitones_delta = int(semitones_delta)
+            
+            freq.setValue(FREQ_AT_20_CM * 2**(semitones_delta / 12))
 
-        # bring volume up to 1 once we get our first measurement
-        volume.setValue(1)
+            # bring volume up to 1 once we get our first measurement
+            volume.setValue(1)
 
         time.sleep(SENSOR_SAMPLE_PERIOD_SEC)
 
