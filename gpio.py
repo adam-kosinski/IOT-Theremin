@@ -10,8 +10,10 @@ def init():
     GPIO.setup(TRIG_PIN, GPIO.OUT)
     GPIO.setup(ECHO_PIN, GPIO.IN)
 
+
 def cleanup():
     GPIO.cleanup()
+
 
 def get_distance_cm():
     measure_start = time.time()

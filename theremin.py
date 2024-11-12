@@ -36,12 +36,10 @@ gpio.init()
 
 # create and boot the server
 # raspberry pi hardware doesn't support duplex
-s = Server(duplex=0, buffersize=1024).boot()
+s = Server(duplex=0, buffersize=1024)
+s.setOutputDevice(1)  # so it works even when hdmi is plugged in
 s.amp = 0.3
-
-# start the audio server, and wait a bit so we don't get weird blips as starting-up artifacts
-s.start()
-time.sleep(0.1)
+s.boot().start()
 
 # interpolating signals to control base frequency and volume
 freq = SigTo(value=0, time=SENSOR_SAMPLE_PERIOD_SEC, init=0)
