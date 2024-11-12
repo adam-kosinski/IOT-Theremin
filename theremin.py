@@ -76,9 +76,8 @@ try:
             # set frequency
             freq.setValue(FREQ_AT_20_CM * 2**(semitones_delta / 12))
 
-            correction = waveforms.loudness_correction_factor(freq.value)
-            set_vol = s.amp * volume.value * waveforms.loudness_correction_factor(freq.value)
-            print(f"{freq.value:.1f} Hz, amplitude {set_vol:.3f}, correction factor {correction:.3f}")
+            amplitude_out = s.amp * volume.value
+            print(f"{freq.value:.1f} Hz, amplitude {amplitude_out:.3f}")
 
             out_of_range = False
             n_measurements_out_of_range = 0
