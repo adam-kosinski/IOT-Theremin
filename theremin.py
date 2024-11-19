@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 import waveforms
 import gpio
 import signal
+from threading import Timer
 
 SENSOR_SAMPLE_PERIOD_SEC = 0.100
 AUTOTUNE = True
@@ -36,6 +37,7 @@ class Recording:
 class Theremin():
     n_measurements_out_of_range = 0
     out_of_range = False
+    timer = None
 
     def __init__(self):
         gpio.init()
@@ -51,11 +53,20 @@ class Theremin():
         self.volume = SigTo(value=0.0, time=SENSOR_SAMPLE_PERIOD_SEC, init=0.0)
         self.audio_signal = waveforms.sine(self.freq, self.volume)
         self.audio_signal.out()
+
+        self.main_loop()
     
-    def __del__(self):
+    def cleanup(self):
         print("\nCleaning up theremin GPIO and audio server")
+        if self.timer:
+            self.timer.cancel()
         gpio.cleanup()
         self.s.stop()
+    
+    def main_loop(self):
+        self.sensor_update()
+        self.timer = Timer(SENSOR_SAMPLE_PERIOD_SEC, self.main_loop)
+        self.timer.start()
     
     def sensor_update(self):
         pitch_cm, volume_cm = gpio.get_distances(MAX_DIST_CM)
@@ -68,7 +79,8 @@ class Theremin():
                 self.out_of_range = True
                 self.volume.setValue(0)
         else:
-            self.volume.setValue(1)
+            target_volume = min(1, volume_cm / 50)
+            self.volume.setValue(target_volume)
 
             # if this is the first pitch measurement, don't interpolate
             # (so that previous irrelevant pitch information doesn't get mixed in)
@@ -91,15 +103,15 @@ class Theremin():
 
 
 def signal_handler(sig, frame):
+    theremin.cleanup()
     sys.exit(0)
 
 
 if __name__ == "__main__":
-    # set up ctrl+C handler
     signal.signal(signal.SIGINT, signal_handler)
 
     theremin = Theremin()
 
     while True:
-        theremin.sensor_update()
-        time.sleep(SENSOR_SAMPLE_PERIOD_SEC)
+        print("yay")
+        time.sleep(1)
