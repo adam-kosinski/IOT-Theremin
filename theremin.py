@@ -15,7 +15,8 @@ SENSOR_SAMPLE_PERIOD_SEC = 0.100
 AUTOTUNE = True
 MAX_DIST_CM = 80
 CM_PER_SEMITONE = 1.5
-FREQ_AT_20_CM = 880
+CM_PER_DB = 0.4
+FREQ_AT_20_CM = 440
 
 
 # class to record a signal and fade in / fade out at the ends to prevent clicking
@@ -44,8 +45,8 @@ class Theremin():
 
         # create and boot the audio server
         self.s = Server(duplex=0, buffersize=1024)
-        self.s.setOutputDevice(1)  # so it works even when hdmi is plugged in
-        self.s.amp = 0.3
+        self.s.setOutputDevice(1)
+        self.s.amp = 0.6
         self.s.boot().start()
 
         # interpolating signals to control base frequency and volume
@@ -79,8 +80,6 @@ class Theremin():
                 self.out_of_range = True
                 self.volume.setValue(0)
         else:
-            target_volume = min(1, volume_cm / 50)
-            self.volume.setValue(target_volume)
 
             # if this is the first pitch measurement, don't interpolate
             # (so that previous irrelevant pitch information doesn't get mixed in)
@@ -90,6 +89,8 @@ class Theremin():
             self.out_of_range = False
             n_measurements_out_of_range = 0
 
+            # FREQUENCY ------------------------------------
+
             # calculate semitone delta from reference frequency (at 20cm), based on distance
             # closer to the sensor should be higher pitched, like real theremins
             semitones_delta = (20 - pitch_cm) / CM_PER_SEMITONE
@@ -97,6 +98,20 @@ class Theremin():
                 semitones_delta = int(semitones_delta)
             # set frequency
             self.freq.setValue(FREQ_AT_20_CM * 2**(semitones_delta / 12))
+
+            # AMPLITUDE -------------------------------------
+
+            zero_volume_cm = 6
+
+            if volume_cm < zero_volume_cm:
+                target_amplitude = 0
+            else:
+                quiet_db = -40
+                db_delta = max(0, volume_cm - zero_volume_cm) / CM_PER_DB
+                db = quiet_db + db_delta
+                target_amplitude = min(1, 10**(db/20))
+            
+            self.volume.setValue(target_amplitude)
 
             amplitude_out = self.s.amp * self.volume.value
             print(f"{self.freq.value:.1f} Hz, amplitude {amplitude_out:.3f}")
