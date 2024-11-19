@@ -30,3 +30,6 @@ def standard(freq, volume):
 
 def sine(freq, volume):
     return Sine(freq=freq, mul=volume)
+
+def supersaw(freq, volume):
+    return SuperSaw(freq=freq, mul=volume)

@@ -115,6 +115,29 @@ class Theremin():
 
             amplitude_out = self.s.amp * self.volume.value
             print(f"{self.freq.value:.1f} Hz, amplitude {amplitude_out:.3f}")
+    
+    def set_waveform(self, waveform_name):
+        if self.audio_signal:
+            self.audio_signal.stop()
+
+        if waveform_name == "sine":
+            self.audio_signal = waveforms.sine(self.freq, self.volume)
+        elif waveform_name == "supersaw":
+            self.audio_signal = waveforms.supersaw(self.freq, self.volume)
+        else:
+            self.audio_signal = waveforms.standard(self.freq, self.volume)
+
+        self.audio_signal.out()
+        
+    def start_recording(self, filename):
+        if not filename.endswith(".wav"):
+            print("Must specify a .wav file")
+            return
+        self.recording = Recording(self.audio_signal, filename)
+    
+    def stop_recording(self):
+        self.recording.stop()
+
 
 
 def signal_handler(sig, frame):
@@ -127,6 +150,19 @@ if __name__ == "__main__":
 
     theremin = Theremin()
 
+    # theremin.start_recording("test_recording.wav")
+
+    i = 0
     while True:
-        print("yay")
+        i += 1
+        print(i)
+
+        if i % 5 == 0:
+            if i % 2 == 0:
+                theremin.set_waveform("standard")
+            else:
+                theremin.set_waveform("supersaw")
+
+        # if i > 15:
+        #     theremin.stop_recording()
         time.sleep(1)
