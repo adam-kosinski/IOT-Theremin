@@ -119,14 +119,7 @@ class Theremin():
     def set_waveform(self, waveform_name):
         if self.audio_signal:
             self.audio_signal.stop()
-
-        if waveform_name == "sine":
-            self.audio_signal = waveforms.sine(self.freq, self.volume)
-        elif waveform_name == "supersaw":
-            self.audio_signal = waveforms.supersaw(self.freq, self.volume)
-        else:
-            self.audio_signal = waveforms.standard(self.freq, self.volume)
-
+        self.audio_signal = waveforms.waveform_dict[waveform_name](self.freq, self.volume)
         self.audio_signal.out()
         
     def start_recording(self, filename):

@@ -33,3 +33,10 @@ def sine(freq, volume):
 
 def supersaw(freq, volume):
     return SuperSaw(freq=freq, mul=volume)
+
+
+waveform_dict = {
+    "standard": standard,
+    "sine": sine,
+    "supersaw": supersaw
+}
