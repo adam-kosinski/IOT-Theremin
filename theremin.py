@@ -76,7 +76,7 @@ class Theremin():
         # if out of range, turn off the sound
         if pitch_cm > MAX_DIST_CM or volume_cm > MAX_DIST_CM:
             self.n_measurements_out_of_range += 1
-            if self.n_measurements_out_of_range >= 3:
+            if self.n_measurements_out_of_range >= 6:
                 self.out_of_range = True
                 self.volume.setValue(0)
         else:
