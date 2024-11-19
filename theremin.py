@@ -52,8 +52,9 @@ try:
     n_measurements_out_of_range = 0
     out_of_range = False
     while True:
-        distance_cm = gpio.get_distance_cm()
-        print("distance cm:", distance_cm)
+        distances_cm = gpio.get_distances(MAX_DIST_CM)
+        print("distances (cm):", distances_cm)
+        distance_cm = distances_cm[0]
 
         # if out of range, turn off the sound
         if distance_cm > MAX_DIST_CM:
