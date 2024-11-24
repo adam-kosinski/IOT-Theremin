@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from waveforms import waveform_dict as wd
 from theremin import Theremin
 
-theremin_t = []
+theremin_t = None
 
 class SoundDeviceController(QMainWindow):
     def __init__(self):
@@ -117,8 +117,10 @@ class SoundDeviceController(QMainWindow):
             )
 
             global theremin_t
-            theremin_t.cleanup()
-            theremin_t = []
+            global theremin_t
+            if theremin_t is not None:
+                theremin_t.cleanup()
+            theremin_t = None
 
     def toggle_record_sound(self):
         # Placeholder function for record/stop button
