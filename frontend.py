@@ -37,7 +37,7 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
-        container_frame.setFixedSize(350, 400)
+        container_frame.setFixedSize(325, 400)
         container_frame.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
@@ -46,7 +46,7 @@ class SoundDeviceController(QMainWindow):
 
                 # Container frame for panel
         container_frame1 = QFrame()
-        container_frame1.setFixedSize(350, 400)
+        container_frame1.setFixedSize(325, 400)
         container_frame1.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout1 = QVBoxLayout()
         container_layout1.setAlignment(Qt.AlignCenter)
@@ -54,7 +54,7 @@ class SoundDeviceController(QMainWindow):
         main_layout.addWidget(container_frame1, alignment=Qt.AlignRight)
 
         # Title label
-        title_label = QLabel("Sound Device Controller", self)
+        title_label = QLabel("Device", self)
         title_label.setAlignment(Qt.AlignCenter)
         title_label.setStyleSheet("font-size: 36px; color: #2c3e50;")
         container_layout.addWidget(title_label)
@@ -62,7 +62,7 @@ class SoundDeviceController(QMainWindow):
 
         # Waveform label
         waveform_label = QLabel("Waveform:")
-        waveform_label.setStyleSheet("font-size: 36px; color: #2c3e50;")
+        waveform_label.setStyleSheet("font-size: 24px; color: #2c3e50;")
         waveform_label.setAlignment(Qt.AlignLeft)
         container_layout.addWidget(waveform_label)
 
@@ -123,7 +123,7 @@ class SoundDeviceController(QMainWindow):
         self.track_combo.addItems(['Recording_1'])
         self.track_combo.currentIndexChanged.connect(self.change_track)
         self.track_combo.setStyleSheet(
-            "font-size: 24px; padding: 10px; margin: 1px 50px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+            "font-size: 24px; padding: 10px; margin: 2px 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
         self.track_combo.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         playback_layout.addWidget(self.track_combo)
