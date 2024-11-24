@@ -16,7 +16,7 @@ class SoundDeviceController(QMainWindow):
     def initUI(self):
         # Main window settings
         self.setWindowTitle("Sound Device Controller")
-        self.showMaximized()
+        self.resize(800, 600)
 
         # Set main window background color
         palette = self.palette()
@@ -37,7 +37,7 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
-        size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        size_policy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         container_frame.setSizePolicy(size_policy)
         container_frame.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout = QVBoxLayout()
@@ -75,7 +75,7 @@ class SoundDeviceController(QMainWindow):
         self.waveform_combo.setStyleSheet(
             "font-size: 24px; padding: 10px; margin: 1px 50px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
-        self.waveform_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.waveform_combo.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         container_layout.addWidget(self.waveform_combo)
         container_layout.setSpacing(30)  # Add spacing between elements for better visibility
 
@@ -127,7 +127,7 @@ class SoundDeviceController(QMainWindow):
         self.track_combo.setStyleSheet(
             "font-size: 24px; padding: 10px; margin: 1px 50px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
-        self.track_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.track_combo.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         playback_layout.addWidget(self.track_combo)
 
         self.play_track = QPushButton("Play Track")
