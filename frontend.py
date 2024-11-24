@@ -37,7 +37,7 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
-        container_frame.setFixedSize(325, 400)
+        container_frame.setFixedSize(330, 400)
         container_frame.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
@@ -46,7 +46,7 @@ class SoundDeviceController(QMainWindow):
 
                 # Container frame for panel
         container_frame1 = QFrame()
-        container_frame1.setFixedSize(325, 400)
+        container_frame1.setFixedSize(330, 400)
         container_frame1.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout1 = QVBoxLayout()
         container_layout1.setAlignment(Qt.AlignCenter)
@@ -95,7 +95,7 @@ class SoundDeviceController(QMainWindow):
         self.record_button = QPushButton("Start Recording")
         self.record_button.setIcon(QIcon("icons/record_icon.svg"))  # Replace with your SVG file
         self.record_button.setStyleSheet(
-            "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 18px;"
+            "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
         )
         self.record_button.clicked.connect(self.toggle_record_sound)
         control_layout.addWidget(self.record_button)
@@ -182,7 +182,7 @@ class SoundDeviceController(QMainWindow):
             print(f"Playing sound with {self.waveform_combo.currentText()} waveform...")
             self.play_button.setText("Stop Sound")
             self.play_button.setStyleSheet(
-                "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 18px;"
+                "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 18px;"
             )
             theremin_t = Theremin()
             theremin_t.set_waveform(self.waveform_combo.currentText())
@@ -191,7 +191,7 @@ class SoundDeviceController(QMainWindow):
             print("Stopping sound...")
             self.play_button.setText("Play Sound")
             self.play_button.setStyleSheet(
-                "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 18px;"
+                "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 18px;"
             )
             if self.record_button.text() == "Stop Recording":
                 self.toggle_record_sound()
@@ -211,7 +211,7 @@ class SoundDeviceController(QMainWindow):
             print("Recording sound...")
             self.record_button.setText("Stop Recording")
             self.record_button.setStyleSheet(
-                "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 18px;"
+                "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
             )
 
             theremin_t.start_recording(f"recording_{int(time.time())}.wav")
@@ -219,7 +219,7 @@ class SoundDeviceController(QMainWindow):
             print("Stopping recording...")
             self.record_button.setText("Start Recording")
             self.record_button.setStyleSheet(
-                "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 18px;"
+                "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
             )
             theremin_t.stop_recording()
     
