@@ -103,7 +103,6 @@ class SoundDeviceController(QMainWindow):
         # Playback layout
         playback_layout = QVBoxLayout()
         playback_layout.setAlignment(Qt.AlignTop)
-        playback_layout.setSpacing(15)
         container_layout1.addLayout(playback_layout)
 
         # Title label
