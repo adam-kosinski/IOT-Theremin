@@ -37,7 +37,7 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
-        container_frame.setFixedSize(400, 400)
+        container_frame.setFixedSize(350, 400)
         container_frame.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
@@ -46,7 +46,7 @@ class SoundDeviceController(QMainWindow):
 
                 # Container frame for panel
         container_frame1 = QFrame()
-        container_frame1.setFixedSize(400, 400)
+        container_frame1.setFixedSize(350, 400)
         container_frame1.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout1 = QVBoxLayout()
         container_layout1.setAlignment(Qt.AlignCenter)
@@ -56,13 +56,13 @@ class SoundDeviceController(QMainWindow):
         # Title label
         title_label = QLabel("Sound Device Controller", self)
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("font-size: 12px; color: #2c3e50;")
+        title_label.setStyleSheet("font-size: 36px; color: #2c3e50;")
         container_layout.addWidget(title_label)
 
 
         # Waveform label
         waveform_label = QLabel("Waveform:")
-        waveform_label.setStyleSheet("font-size: 24px; color: #2c3e50;")
+        waveform_label.setStyleSheet("font-size: 36px; color: #2c3e50;")
         waveform_label.setAlignment(Qt.AlignLeft)
         container_layout.addWidget(waveform_label)
 
@@ -86,7 +86,7 @@ class SoundDeviceController(QMainWindow):
         self.play_button = QPushButton("Play Sound")
         self.play_button.setIcon(QIcon("icons/play_icon.svg"))  # Replace with your SVG file
         self.play_button.setStyleSheet(
-            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 18px;"
+            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 24px;"
         )
         self.play_button.clicked.connect(self.toggle_play_sound)
         control_layout.addWidget(self.play_button)
@@ -140,7 +140,7 @@ class SoundDeviceController(QMainWindow):
         self.refresh_button = QPushButton()
         self.refresh_button.setIcon(QIcon("icons/refresh_icon.svg"))  # Replace with your SVG file
         self.refresh_button.setStyleSheet(
-            "background-color: #95a5a6; color: #ffffff; border-radius: 10px; padding: 5px; font-size: 12px;"
+            "background-color: #95a5a6; color: #ffffff; border-radius: 10px; padding: 5px; font-size: 24px;"
         )
         self.refresh_button.setFixedWidth(50)
         self.refresh_button.clicked.connect(self.refresh_tracks)
