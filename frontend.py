@@ -46,7 +46,7 @@ class SoundDeviceController(QMainWindow):
 
                 # Container frame for panel
         container_frame1 = QFrame()
-        container_frame1.setFixedSize(330, 400)
+        container_frame1.setFixedSize(335, 400)
         container_frame1.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout1 = QVBoxLayout()
         container_layout1.setAlignment(Qt.AlignCenter)
@@ -123,7 +123,7 @@ class SoundDeviceController(QMainWindow):
         self.track_combo.addItems(['Recording_1'])
         self.track_combo.currentIndexChanged.connect(self.change_track)
         self.track_combo.setStyleSheet(
-            "font-size: 24px; padding: 5px; margin: 2px 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+            "font-size: 14px; padding: 5px; margin: 2px 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
         self.track_combo.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         playback_layout.addWidget(self.track_combo)
