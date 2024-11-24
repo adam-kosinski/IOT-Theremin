@@ -37,7 +37,7 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
-        container_frame.setFixedSize(335, 400)
+        container_frame.setFixedSize(350, 400)
         container_frame.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
