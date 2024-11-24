@@ -58,6 +58,7 @@ class SoundDeviceController(QMainWindow):
         # Waveform selection input
         self.waveform_combo = QComboBox()
         self.waveform_combo.addItems(list(wd.keys()))
+        self.waveform_combo.currentIndexChanged.connect(self.change_waveform)
         self.waveform_combo.setStyleSheet(
             "font-size: 24px; padding: 10px; margin: 1px 50px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
@@ -89,6 +90,14 @@ class SoundDeviceController(QMainWindow):
         control_layout.addWidget(self.record_button)
 
 
+    def change_waveform(self):
+        # Placeholder function for changing the waveform
+        print(f"Waveform changed to: {self.waveform_combo.currentText()}")
+        global theremin_t
+        if(theremin_t):
+            theremin_t.set_waveform(self.waveform_combo.currentText())
+        
+
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Exit',
                                      "Are you sure you want to quit?",
@@ -108,6 +117,7 @@ class SoundDeviceController(QMainWindow):
                 "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
             theremin_t = Theremin()
+            theremin_t.set_waveform(self.waveform_combo.currentText())
 
         else:
             print("Stopping sound...")
