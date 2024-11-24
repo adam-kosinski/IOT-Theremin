@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QFrame, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QFrame, QSizePolicy, QMessageBox
 from PyQt5.QtGui import QIcon, QPalette, QColor
 from PyQt5.QtCore import Qt
 
@@ -66,6 +66,15 @@ class SoundDeviceController(QMainWindow):
         )
         self.record_button.clicked.connect(self.toggle_record_sound)
         control_layout.addWidget(self.record_button)
+
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, 'Exit',
+                                     "Are you sure you want to quit?",
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
     def toggle_play_sound(self):
         # Placeholder function for play/stop button
