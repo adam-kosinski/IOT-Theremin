@@ -130,6 +130,12 @@ class SoundDeviceController(QMainWindow):
             theremin_t = None
 
     def toggle_record_sound(self):
+        global theremin_t
+
+        if theremin_t is None:
+            QMessageBox.critical(self, 'Error', 'To record audio, make sure to play sound', QMessageBox.Ok)
+            return
+        
         # Placeholder function for record/stop button
         if self.record_button.text() == "Start Recording":
             print("Recording sound...")
