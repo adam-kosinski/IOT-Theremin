@@ -11,7 +11,7 @@ class SoundDeviceController(QMainWindow):
     def initUI(self):
         # Main window settings
         self.setWindowTitle("Sound Device Controller")
-        self.showFullScreen()
+        self.showMaximized()
 
         # Central widget
         central_widget = QWidget()
@@ -24,6 +24,7 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
+        container_frame.setSizePolicy(QFrame.Expanding, QFrame.Expanding)
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
         container_frame.setLayout(container_layout)
