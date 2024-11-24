@@ -27,11 +27,13 @@ class SoundDeviceController(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
-        # Main layout setup
-        main_layout = QVBoxLayout()
-        main_layout.setAlignment(Qt.AlignCenter)
+         # Main layout setup
+        main_layout = QHBoxLayout()
+        main_layout.setAlignment(Qt.AlignTop)
         main_layout.setContentsMargins(50, 50, 50, 100)
+        
         central_widget.setLayout(main_layout)
+        
 
         # Container frame for panel
         container_frame = QFrame()
@@ -41,7 +43,17 @@ class SoundDeviceController(QMainWindow):
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
         container_frame.setLayout(container_layout)
-        main_layout.addWidget(container_frame)
+        main_layout.addWidget(container_frame, alignment=Qt.AlignLeft)
+
+                # Container frame for panel
+        container_frame1 = QFrame()
+        size_policy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        container_frame1.setSizePolicy(size_policy1)
+        container_frame1.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
+        container_layout1 = QVBoxLayout()
+        container_layout1.setAlignment(Qt.AlignCenter)
+        container_frame1.setLayout(container_layout1)
+        main_layout.addWidget(container_frame1, alignment=Qt.AlignRight)
 
         # Title label
         title_label = QLabel("Sound Device Controller", self)
@@ -90,17 +102,23 @@ class SoundDeviceController(QMainWindow):
         self.record_button.clicked.connect(self.toggle_record_sound)
         control_layout.addWidget(self.record_button)
 
+        # Playback layout
+        playback_layout = QVBoxLayout()
+        playback_layout.setAlignment(Qt.AlignTop)
+        playback_layout.setSpacing(15)
+        container_layout1.addLayout(playback_layout)
+
         # Title label
         playback_label = QLabel("Playback", self)
         playback_label.setAlignment(Qt.AlignCenter)
         playback_label.setStyleSheet("font-size: 36px; color: #2c3e50;")
-        container_layout.addWidget(playback_label)
+        playback_layout.addWidget(playback_label)
 
         # Track label
         track_label = QLabel("Track:")
         track_label.setStyleSheet("font-size: 24px; color: #2c3e50;")
         track_label.setAlignment(Qt.AlignLeft)
-        container_layout.addWidget(track_label)
+        playback_layout.addWidget(track_label)
 
         # Waveform selection input
         self.track_combo = QComboBox()
@@ -110,7 +128,7 @@ class SoundDeviceController(QMainWindow):
             "font-size: 24px; padding: 10px; margin: 1px 50px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
         self.track_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        container_layout.addWidget(self.track_combo)
+        playback_layout.addWidget(self.track_combo)
 
         self.play_track = QPushButton("Play Track")
         self.play_track.setIcon(QIcon("icons/play_icon.svg"))  # Replace with your SVG file
@@ -118,7 +136,7 @@ class SoundDeviceController(QMainWindow):
             "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; margin: 5px 50px; font-size: 36px;"
         )
         self.play_track.clicked.connect(self.toggle_track)
-        container_layout.addWidget(self.play_track)
+        playback_layout.addWidget(self.play_track)
 
         # Refresh button
         self.refresh_button = QPushButton()
@@ -128,7 +146,7 @@ class SoundDeviceController(QMainWindow):
         )
         self.refresh_button.setFixedWidth(100)
         self.refresh_button.clicked.connect(self.refresh_tracks)
-        container_layout.addWidget(self.refresh_button, alignment=Qt.AlignRight)
+        playback_layout.addWidget(self.refresh_button, alignment=Qt.AlignRight)
 
 
     def change_waveform(self):
