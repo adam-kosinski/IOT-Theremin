@@ -129,7 +129,7 @@ class Theremin():
         self.recording = Recording(self.audio_signal, filename)
     
     def stop_recording(self):
-        self.recording.stop()
+        self.recording.stop_recording()
 
 
 
