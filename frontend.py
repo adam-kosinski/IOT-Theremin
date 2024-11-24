@@ -86,7 +86,7 @@ class SoundDeviceController(QMainWindow):
         self.play_button = QPushButton("Play Sound")
         self.play_button.setIcon(QIcon("icons/play_icon.svg"))  # Replace with your SVG file
         self.play_button.setStyleSheet(
-            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 24px;"
+            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 18px;"
         )
         self.play_button.clicked.connect(self.toggle_play_sound)
         control_layout.addWidget(self.play_button)
@@ -162,11 +162,16 @@ class SoundDeviceController(QMainWindow):
         print(f"changing track to {self.track_combo.currentText()}")
 
     def closeEvent(self, event):
+        global theremin_t
         reply = QMessageBox.question(self, 'Exit',
                                      "Are you sure you want to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
+            if theremin_t is not None:
+                theremin_t.cleanup()
+            theremin_t = None
             event.accept()
+            
         else:
             event.ignore()
 
