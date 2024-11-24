@@ -2,6 +2,10 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QFrame, QSizePolicy, QMessageBox, QComboBox
 from PyQt5.QtGui import QIcon, QPalette, QColor
 from PyQt5.QtCore import Qt
+from waveforms import waveform_dict as wd
+from theremin import Theremin
+
+theremin_t = []
 
 class SoundDeviceController(QMainWindow):
     def __init__(self):
@@ -53,9 +57,9 @@ class SoundDeviceController(QMainWindow):
 
         # Waveform selection input
         self.waveform_combo = QComboBox()
-        self.waveform_combo.addItems(["Sine", "Square", "Triangle", "Sawtooth"])
+        self.waveform_combo.addItems(list(wd.keys()))
         self.waveform_combo.setStyleSheet(
-            "font-size: 24px; padding: 10px; margin: 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+            "font-size: 24px; padding: 10px; margin: 1px 50px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
         self.waveform_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         container_layout.addWidget(self.waveform_combo)
@@ -102,12 +106,19 @@ class SoundDeviceController(QMainWindow):
             self.play_button.setStyleSheet(
                 "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
+            global theremin_t
+            theremin_t = Theremin()
+
         else:
             print("Stopping sound...")
             self.play_button.setText("Play Sound")
             self.play_button.setStyleSheet(
                 "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
+
+            global theremin_t
+            theremin_t.cleanup()
+            theremin_t = []
 
     def toggle_record_sound(self):
         # Placeholder function for record/stop button
