@@ -4,6 +4,7 @@ from PyQt5.QtGui import QIcon, QPalette, QColor
 from PyQt5.QtCore import Qt
 from waveforms import waveform_dict as wd
 from theremin import Theremin
+import time
 
 theremin_t = None
 
@@ -143,12 +144,15 @@ class SoundDeviceController(QMainWindow):
             self.record_button.setStyleSheet(
                 "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
+
+            theremin_t.start_recording(f"recordings/recording_{int(time.time())}.wav")
         else:
             print("Stopping recording...")
             self.record_button.setText("Start Recording")
             self.record_button.setStyleSheet(
                 "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
+            theremin_t.stop_recording()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
