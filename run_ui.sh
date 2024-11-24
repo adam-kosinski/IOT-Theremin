@@ -1,4 +1,4 @@
-cd /Videos/IOT-Theremin
+cd /home/test/Videos/IOT-Theremin
 
 source .venv/bin/activate
 
