@@ -177,7 +177,7 @@ class SoundDeviceController(QMainWindow):
             print(f"Playing sound with {self.waveform_combo.currentText()} waveform...")
             self.play_button.setText("Stop Sound")
             self.play_button.setStyleSheet(
-                "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
+                "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 18px;"
             )
             theremin_t = Theremin()
             theremin_t.set_waveform(self.waveform_combo.currentText())
@@ -186,7 +186,7 @@ class SoundDeviceController(QMainWindow):
             print("Stopping sound...")
             self.play_button.setText("Play Sound")
             self.play_button.setStyleSheet(
-                "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
+                "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 18px;"
             )
             if self.record_button.text() == "Stop Recording":
                 self.toggle_record_sound()
@@ -206,7 +206,7 @@ class SoundDeviceController(QMainWindow):
             print("Recording sound...")
             self.record_button.setText("Stop Recording")
             self.record_button.setStyleSheet(
-                "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
+                "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 18px;"
             )
 
             theremin_t.start_recording(f"recording_{int(time.time())}.wav")
@@ -214,7 +214,7 @@ class SoundDeviceController(QMainWindow):
             print("Stopping recording...")
             self.record_button.setText("Start Recording")
             self.record_button.setStyleSheet(
-                "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
+                "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 18px;"
             )
             theremin_t.stop_recording()
     
