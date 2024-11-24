@@ -118,12 +118,12 @@ class SoundDeviceController(QMainWindow):
         track_label.setAlignment(Qt.AlignLeft)
         playback_layout.addWidget(track_label)
 
-        # Waveform selection input
+        # Track selection input
         self.track_combo = QComboBox()
         self.track_combo.addItems(['Recording_1'])
         self.track_combo.currentIndexChanged.connect(self.change_track)
         self.track_combo.setStyleSheet(
-            "font-size: 24px; padding: 10px; margin: 2px 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+            "font-size: 24px; padding: 5px; margin: 2px 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
         self.track_combo.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         playback_layout.addWidget(self.track_combo)
