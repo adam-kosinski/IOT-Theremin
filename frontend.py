@@ -37,8 +37,7 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
-        size_policy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        container_frame.setSizePolicy(size_policy)
+        container_frame.setFixedSize(300, 400)
         container_frame.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
@@ -47,8 +46,7 @@ class SoundDeviceController(QMainWindow):
 
                 # Container frame for panel
         container_frame1 = QFrame()
-        size_policy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        container_frame1.setSizePolicy(size_policy1)
+        container_frame1.setFixedSize(300, 400)
         container_frame1.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout1 = QVBoxLayout()
         container_layout1.setAlignment(Qt.AlignCenter)
@@ -88,7 +86,7 @@ class SoundDeviceController(QMainWindow):
         self.play_button = QPushButton("Play Sound")
         self.play_button.setIcon(QIcon("icons/play_icon.svg"))  # Replace with your SVG file
         self.play_button.setStyleSheet(
-            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
+            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 18px;"
         )
         self.play_button.clicked.connect(self.toggle_play_sound)
         control_layout.addWidget(self.play_button)
@@ -97,7 +95,7 @@ class SoundDeviceController(QMainWindow):
         self.record_button = QPushButton("Start Recording")
         self.record_button.setIcon(QIcon("icons/record_icon.svg"))  # Replace with your SVG file
         self.record_button.setStyleSheet(
-            "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
+            "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 18px;"
         )
         self.record_button.clicked.connect(self.toggle_record_sound)
         control_layout.addWidget(self.record_button)
@@ -133,7 +131,7 @@ class SoundDeviceController(QMainWindow):
         self.play_track = QPushButton("Play Track")
         self.play_track.setIcon(QIcon("icons/play_icon.svg"))  # Replace with your SVG file
         self.play_track.setStyleSheet(
-            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; margin: 5px 50px; font-size: 36px;"
+            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 18px;"
         )
         self.play_track.clicked.connect(self.toggle_track)
         playback_layout.addWidget(self.play_track)
@@ -142,7 +140,7 @@ class SoundDeviceController(QMainWindow):
         self.refresh_button = QPushButton()
         self.refresh_button.setIcon(QIcon("icons/refresh_icon.svg"))  # Replace with your SVG file
         self.refresh_button.setStyleSheet(
-            "background-color: #95a5a6; color: #ffffff; border-radius: 10px; padding: 10px; margin: 5px; font-size: 24px;"
+            "background-color: #95a5a6; color: #ffffff; border-radius: 10px; padding: 5px; font-size: 12px;"
         )
         self.refresh_button.setFixedWidth(50)
         self.refresh_button.clicked.connect(self.refresh_tracks)
