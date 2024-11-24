@@ -16,7 +16,7 @@ class SoundDeviceController(QMainWindow):
     def initUI(self):
         # Main window settings
         self.setWindowTitle("Sound Device Controller")
-        self.resize(200, 300)
+        self.resize(400, 300)
 
         # Set main window background color
         palette = self.palette()
@@ -58,7 +58,7 @@ class SoundDeviceController(QMainWindow):
         # Title label
         title_label = QLabel("Sound Device Controller", self)
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("font-size: 36px; color: #2c3e50;")
+        title_label.setStyleSheet("font-size: 12px; color: #2c3e50;")
         container_layout.addWidget(title_label)
 
 
@@ -73,7 +73,7 @@ class SoundDeviceController(QMainWindow):
         self.waveform_combo.addItems(list(wd.keys()))
         self.waveform_combo.currentIndexChanged.connect(self.change_waveform)
         self.waveform_combo.setStyleSheet(
-            "font-size: 24px; padding: 10px; margin: 1px 50px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+            "font-size: 24px; padding: 5px; margin: 2px 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
         self.waveform_combo.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         container_layout.addWidget(self.waveform_combo)
@@ -144,7 +144,7 @@ class SoundDeviceController(QMainWindow):
         self.refresh_button.setStyleSheet(
             "background-color: #95a5a6; color: #ffffff; border-radius: 10px; padding: 10px; margin: 5px; font-size: 24px;"
         )
-        self.refresh_button.setFixedWidth(100)
+        self.refresh_button.setFixedWidth(50)
         self.refresh_button.clicked.connect(self.refresh_tracks)
         playback_layout.addWidget(self.refresh_button, alignment=Qt.AlignRight)
 
