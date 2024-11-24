@@ -145,7 +145,7 @@ class SoundDeviceController(QMainWindow):
                 "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
 
-            theremin_t.start_recording(f"recordings/recording_{int(time.time())}.wav")
+            theremin_t.start_recording(f"recording_{int(time.time())}.wav")
         else:
             print("Stopping recording...")
             self.record_button.setText("Start Recording")
