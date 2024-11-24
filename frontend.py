@@ -55,7 +55,7 @@ class SoundDeviceController(QMainWindow):
         self.waveform_combo = QComboBox()
         self.waveform_combo.addItems(["Sine", "Square", "Triangle", "Sawtooth"])
         self.waveform_combo.setStyleSheet(
-            "font-size: 24px; padding: 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+            "font-size: 24px; padding: 10px; margin: 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
         self.waveform_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         container_layout.addWidget(self.waveform_combo)
