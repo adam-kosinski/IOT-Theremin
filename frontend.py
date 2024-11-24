@@ -99,6 +99,7 @@ class SoundDeviceController(QMainWindow):
             event.ignore()
 
     def toggle_play_sound(self):
+        global theremin_t
         # Placeholder function for play/stop button
         if self.play_button.text() == "Play Sound":
             print(f"Playing sound with {self.waveform_combo.currentText()} waveform...")
@@ -106,7 +107,6 @@ class SoundDeviceController(QMainWindow):
             self.play_button.setStyleSheet(
                 "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
-            global theremin_t
             theremin_t = Theremin()
 
         else:
@@ -115,9 +115,6 @@ class SoundDeviceController(QMainWindow):
             self.play_button.setStyleSheet(
                 "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
-
-            global theremin_t
-            global theremin_t
             if theremin_t is not None:
                 theremin_t.cleanup()
             theremin_t = None
