@@ -16,7 +16,7 @@ class SoundDeviceController(QMainWindow):
     def initUI(self):
         # Main window settings
         self.setWindowTitle("Sound Device Controller")
-        self.resize(300, 300)
+        self.resize(200, 300)
 
         # Set main window background color
         palette = self.palette()
