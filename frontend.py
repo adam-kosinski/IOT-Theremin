@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QFrame, QSizePolicy, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QFrame, QSizePolicy, QMessageBox, QComboBox
 from PyQt5.QtGui import QIcon, QPalette, QColor
 from PyQt5.QtCore import Qt
 
@@ -67,6 +67,22 @@ class SoundDeviceController(QMainWindow):
         self.record_button.clicked.connect(self.toggle_record_sound)
         control_layout.addWidget(self.record_button)
 
+        # Waveform label
+        waveform_label = QLabel("Waveform:")
+        waveform_label.setStyleSheet("font-size: 24px; color: #2c3e50;")
+        waveform_label.setAlignment(Qt.AlignLeft)
+        container_layout.addWidget(waveform_label)
+
+        # Waveform selection input
+        self.waveform_combo = QComboBox()
+        self.waveform_combo.addItems(["Sine", "Square", "Triangle", "Sawtooth"])
+        self.waveform_combo.setStyleSheet(
+            "font-size: 24px; padding: 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+        )
+        self.waveform_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        container_layout.addWidget(self.waveform_combo)
+        container_layout.setSpacing(30)  # Add spacing between elements for better visibility
+
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Exit',
                                      "Are you sure you want to quit?",
@@ -79,7 +95,7 @@ class SoundDeviceController(QMainWindow):
     def toggle_play_sound(self):
         # Placeholder function for play/stop button
         if self.play_button.text() == "Play Sound":
-            print("Playing sound...")
+            print(f"Playing sound with {self.waveform_combo.currentText()} waveform...")
             self.play_button.setText("Stop Sound")
             self.play_button.setStyleSheet(
                 "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
