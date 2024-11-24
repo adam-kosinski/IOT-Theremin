@@ -30,7 +30,7 @@ class SoundDeviceController(QMainWindow):
         # Main layout setup
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignCenter)
-        main_layout.setContentsMargins(50, 50, 50, 50)
+        main_layout.setContentsMargins(50, 50, 50, 100)
         central_widget.setLayout(main_layout)
 
         # Container frame for panel
@@ -90,6 +90,46 @@ class SoundDeviceController(QMainWindow):
         self.record_button.clicked.connect(self.toggle_record_sound)
         control_layout.addWidget(self.record_button)
 
+        # Title label
+        playback_label = QLabel("Playback", self)
+        playback_label.setAlignment(Qt.AlignCenter)
+        playback_label.setStyleSheet("font-size: 36px; color: #2c3e50;")
+        container_layout.addWidget(playback_label)
+
+        # Track label
+        track_label = QLabel("Track:")
+        track_label.setStyleSheet("font-size: 24px; color: #2c3e50;")
+        track_label.setAlignment(Qt.AlignLeft)
+        container_layout.addWidget(track_label)
+
+        # Waveform selection input
+        self.track_combo = QComboBox()
+        self.track_combo.addItems(['Recording_1'])
+        self.track_combo.currentIndexChanged.connect(self.change_track)
+        self.track_combo.setStyleSheet(
+            "font-size: 24px; padding: 10px; margin: 1px 50px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+        )
+        self.track_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        container_layout.addWidget(self.track_combo)
+
+        self.play_track = QPushButton("Play Track")
+        self.play_track.setIcon(QIcon("icons/play_icon.svg"))  # Replace with your SVG file
+        self.play_track.setStyleSheet(
+            "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; margin: 5px 50px; font-size: 36px;"
+        )
+        self.play_track.clicked.connect(self.toggle_track)
+        container_layout.addWidget(self.play_track)
+
+        # Refresh button
+        self.refresh_button = QPushButton()
+        self.refresh_button.setIcon(QIcon("icons/refresh_icon.svg"))  # Replace with your SVG file
+        self.refresh_button.setStyleSheet(
+            "background-color: #95a5a6; color: #ffffff; border-radius: 10px; padding: 10px; margin: 5px; font-size: 24px;"
+        )
+        self.refresh_button.setFixedWidth(100)
+        self.refresh_button.clicked.connect(self.refresh_tracks)
+        container_layout.addWidget(self.refresh_button, alignment=Qt.AlignRight)
+
 
     def change_waveform(self):
         # Placeholder function for changing the waveform
@@ -97,7 +137,13 @@ class SoundDeviceController(QMainWindow):
         global theremin_t
         if(theremin_t):
             theremin_t.set_waveform(self.waveform_combo.currentText())
-        
+    
+    def refresh_tracks(self):
+        # Placeholder function for refreshing the tracks
+        print("Refreshing track list...")
+
+    def change_track(self):
+        print(f"changing track to {self.track_combo.currentText()}")
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Exit',
@@ -126,6 +172,8 @@ class SoundDeviceController(QMainWindow):
             self.play_button.setStyleSheet(
                 "background-color: #2ecc71; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
+            if self.record_button.text() == "Stop Recording":
+                self.toggle_record_sound()
             if theremin_t is not None:
                 theremin_t.cleanup()
             theremin_t = None
@@ -153,6 +201,9 @@ class SoundDeviceController(QMainWindow):
                 "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 20px; font-size: 36px;"
             )
             theremin_t.stop_recording()
+    
+    def toggle_track(self):
+        print("track playing on vs off")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
