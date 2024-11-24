@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QGridLayout, QFrame
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QFrame, QSizePolicy
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -24,7 +24,8 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
-        container_frame.setSizePolicy(QFrame.Expanding, QFrame.Expanding)
+        size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        container_frame.setSizePolicy(size_policy)
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
         container_frame.setLayout(container_layout)
