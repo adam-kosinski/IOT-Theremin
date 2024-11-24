@@ -41,8 +41,25 @@ class SoundDeviceController(QMainWindow):
         # Title label
         title_label = QLabel("Sound Device Controller", self)
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("font-size: 48px; color: #2c3e50;")
+        title_label.setStyleSheet("font-size: 36px; color: #2c3e50;")
         container_layout.addWidget(title_label)
+
+
+        # Waveform label
+        waveform_label = QLabel("Waveform:")
+        waveform_label.setStyleSheet("font-size: 24px; color: #2c3e50;")
+        waveform_label.setAlignment(Qt.AlignLeft)
+        container_layout.addWidget(waveform_label)
+
+        # Waveform selection input
+        self.waveform_combo = QComboBox()
+        self.waveform_combo.addItems(["Sine", "Square", "Triangle", "Sawtooth"])
+        self.waveform_combo.setStyleSheet(
+            "font-size: 24px; padding: 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
+        )
+        self.waveform_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        container_layout.addWidget(self.waveform_combo)
+        container_layout.setSpacing(30)  # Add spacing between elements for better visibility
 
         # Control panel layout
         control_layout = QHBoxLayout()
@@ -67,21 +84,6 @@ class SoundDeviceController(QMainWindow):
         self.record_button.clicked.connect(self.toggle_record_sound)
         control_layout.addWidget(self.record_button)
 
-        # Waveform label
-        waveform_label = QLabel("Waveform:")
-        waveform_label.setStyleSheet("font-size: 24px; color: #2c3e50;")
-        waveform_label.setAlignment(Qt.AlignLeft)
-        container_layout.addWidget(waveform_label)
-
-        # Waveform selection input
-        self.waveform_combo = QComboBox()
-        self.waveform_combo.addItems(["Sine", "Square", "Triangle", "Sawtooth"])
-        self.waveform_combo.setStyleSheet(
-            "font-size: 24px; padding: 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
-        )
-        self.waveform_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        container_layout.addWidget(self.waveform_combo)
-        container_layout.setSpacing(30)  # Add spacing between elements for better visibility
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Exit',
