@@ -37,7 +37,7 @@ class SoundDeviceController(QMainWindow):
 
         # Container frame for panel
         container_frame = QFrame()
-        container_frame.setFixedSize(600, 400)
+        container_frame.setFixedSize(400, 400)
         container_frame.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout = QVBoxLayout()
         container_layout.setAlignment(Qt.AlignCenter)
@@ -46,7 +46,7 @@ class SoundDeviceController(QMainWindow):
 
                 # Container frame for panel
         container_frame1 = QFrame()
-        container_frame1.setFixedSize(600, 400)
+        container_frame1.setFixedSize(400, 400)
         container_frame1.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         container_layout1 = QVBoxLayout()
         container_layout1.setAlignment(Qt.AlignCenter)
