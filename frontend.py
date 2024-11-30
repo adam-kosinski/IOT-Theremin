@@ -229,8 +229,8 @@ class SoundDeviceController(QMainWindow):
                 "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
             )
             theremin_t.stop_recording()
+            print("uploading ", sound_file)
             s3test.upload_to_s3(sound_file, s3test.bucket_name)
-            sound_file = ""
             try:
                 os.remove(sound_file)
                 print(f"Deleted local file: {sound_file}")
