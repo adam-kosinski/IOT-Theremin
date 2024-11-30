@@ -224,7 +224,7 @@ class SoundDeviceController(QMainWindow):
             theremin_t.start_recording(sound_file)
         else:
             print("Stopping recording...")
-            self.record_button.setText("Start Recording")
+            self.record_button.setText("Uploading!!!")
             self.record_button.setStyleSheet(
                 "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
             )
@@ -237,6 +237,7 @@ class SoundDeviceController(QMainWindow):
             except OSError as e:
                 print(f"Error deleting file {sound_file}: {e}")
             self.refresh_tracks()
+            self.record_button.setText("Start Recording")
 
             
     
