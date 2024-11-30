@@ -1,3 +1,4 @@
+import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QFrame, QSizePolicy, QMessageBox, QComboBox
 from PyQt5.QtGui import QIcon, QPalette, QColor
@@ -6,6 +7,7 @@ from waveforms import waveform_dict as wd
 from theremin import Theremin
 import time
 import s3test
+import subprocess
 
 theremin_t = None
 sound_file = ""
@@ -13,6 +15,8 @@ sound_file = ""
 class SoundDeviceController(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.is_playing = False  # Track if audio is playing
+        self.vlc_process = None
         self.initUI()
 
     def initUI(self):
@@ -121,8 +125,8 @@ class SoundDeviceController(QMainWindow):
 
         # Track selection input
         self.track_combo = QComboBox()
-        self.track_combo.addItems(['Recording_1'])
-        self.track_combo.currentIndexChanged.connect(self.change_track)
+        self.track_combo.addItems(s3test.list_files_in_bucket(s3test.bucket_name))
+        self.track_combo.setMaxVisibleItems(3)
         self.track_combo.setStyleSheet(
             "font-size: 14px; padding: 5px; margin: 2px 10px; border: 2px solid #2c3e50; border-radius: 5px; background-color: #ffffff; color: #2c3e50;"
         )
@@ -162,8 +166,6 @@ class SoundDeviceController(QMainWindow):
         self.track_combo.addItems(new_tracks)
         self.track_combo.setMaxVisibleItems(3)
 
-    def change_track(self):
-        print(f"changing track to {self.track_combo.currentText()}")
 
     def closeEvent(self, event):
         global theremin_t
@@ -228,12 +230,41 @@ class SoundDeviceController(QMainWindow):
             )
             theremin_t.stop_recording()
             s3test.upload_to_s3(sound_file, s3test.bucket_name)
+            sound_file = ""
+            try:
+                os.remove(sound_file)
+                print(f"Deleted local file: {sound_file}")
+            except OSError as e:
+                print(f"Error deleting file {sound_file}: {e}")
             self.refresh_tracks()
 
             
     
     def toggle_track(self):
         print("track playing on vs off")
+
+        if self.is_playing:
+            if self.vlc_process:
+            # Terminate the VLC process to stop the audio
+                self.vlc_process.terminate()  
+                self.vlc_process = None  # Clear the process reference
+            
+            self.is_playing = False  # Mark audio as stopped
+            print("Audio playback stopped.")
+            return
+
+
+        if self.record_button.text() == "Start Recording" and self.play_button.text() == "Play Sound":
+            current_track = self.track_combo.currentText()
+            url = s3test.get_presigned_url(s3test.bucket_name, current_track)
+            self.vlc_process = subprocess.Popen(["vlc", "--play-and-exit", url])  # Start subprocess for VLC
+            self.is_playing = True  # Mark audio as playing
+        # Show a warning modal if either is true
+        QMessageBox.warning(self, "Warning", 
+                            "Please stop playing or recording sound before listening to a previously recorded track.", 
+                            QMessageBox.Ok)
+
+        return
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -31,8 +31,11 @@ def list_files_in_bucket(bucket_name):
             print(f"Files in bucket '{bucket_name}':")
             for obj in response['Contents']:
                 print(obj['Key'])
+            
+            return [obj['Key'] for obj in response['Contents']]
         else:
             print(f"Bucket '{bucket_name}' is empty.")
+            return []
     except NoCredentialsError:
         print("Credentials not available.")
     except PartialCredentialsError:
