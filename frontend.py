@@ -260,7 +260,8 @@ class SoundDeviceController(QMainWindow):
             self.vlc_process = subprocess.Popen(["vlc", "--play-and-exit", url])  # Start subprocess for VLC
             self.is_playing = True  # Mark audio as playing
         # Show a warning modal if either is true
-        QMessageBox.warning(self, "Warning", 
+        else:
+            QMessageBox.warning(self, "Warning", 
                             "Please stop playing or recording sound before listening to a previously recorded track.", 
                             QMessageBox.Ok)
 
