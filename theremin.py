@@ -71,7 +71,7 @@ class Theremin():
     
     def sensor_update(self):
         pitch_cm, volume_cm = gpio.get_distances(MAX_DIST_CM)
-        print(f"pitch {pitch_cm:.1f} cm, volume {volume_cm:.1f} cm")
+        #print(f"pitch {pitch_cm:.1f} cm, volume {volume_cm:.1f} cm")
 
         # if out of range, turn off the sound
         if pitch_cm > MAX_DIST_CM or volume_cm > MAX_DIST_CM:
@@ -114,7 +114,7 @@ class Theremin():
             self.volume.setValue(target_amplitude)
 
             amplitude_out = self.s.amp * self.volume.value
-            print(f"{self.freq.value:.1f} Hz, amplitude {amplitude_out:.3f}")
+            #print(f"{self.freq.value:.1f} Hz, amplitude {amplitude_out:.3f}")
     
     def set_waveform(self, waveform_name):
         if self.audio_signal:
@@ -148,7 +148,7 @@ if __name__ == "__main__":
     i = 0
     while True:
         i += 1
-        print(i)
+        #print(i)
 
         if i % 5 == 0:
             if i % 2 == 0:
