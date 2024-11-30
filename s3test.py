@@ -1,6 +1,8 @@
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
+bucket_name = "ece665recordings--use2-az1--x-s3"
+
 def upload_to_s3(file_name, bucket_name, object_name=None):
     # If no object name is provided, use the file name
     if object_name is None:
