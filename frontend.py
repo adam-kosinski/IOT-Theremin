@@ -5,8 +5,10 @@ from PyQt5.QtCore import Qt
 from waveforms import waveform_dict as wd
 from theremin import Theremin
 import time
+import s3test
 
 theremin_t = None
+sound_file = ""
 
 class SoundDeviceController(QMainWindow):
     def __init__(self):
@@ -154,8 +156,11 @@ class SoundDeviceController(QMainWindow):
             theremin_t.set_waveform(self.waveform_combo.currentText())
     
     def refresh_tracks(self):
-        # Placeholder function for refreshing the tracks
         print("Refreshing track list...")
+        new_tracks = s3test.list_files_in_bucket(s3test.bucket_name)
+        self.track_combo.clear()
+        self.track_combo.addItems(new_tracks)
+        self.track_combo.setMaxVisibleItems(3)
 
     def change_track(self):
         print(f"changing track to {self.track_combo.currentText()}")
@@ -200,6 +205,7 @@ class SoundDeviceController(QMainWindow):
 
     def toggle_record_sound(self):
         global theremin_t
+        global sound_file
 
         if theremin_t is None:
             QMessageBox.critical(self, 'Error', 'To record audio, make sure to play sound', QMessageBox.Ok)
@@ -212,8 +218,8 @@ class SoundDeviceController(QMainWindow):
             self.record_button.setStyleSheet(
                 "background-color: #e74c3c; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
             )
-
-            theremin_t.start_recording(f"recording_{int(time.time())}.wav")
+            sound_file = f"recording_{int(time.time())}.wav"
+            theremin_t.start_recording(sound_file)
         else:
             print("Stopping recording...")
             self.record_button.setText("Start Recording")
@@ -221,6 +227,10 @@ class SoundDeviceController(QMainWindow):
                 "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
             )
             theremin_t.stop_recording()
+            s3test.upload_to_s3(sound_file, s3test.bucket_name)
+            self.refresh_tracks()
+
+            
     
     def toggle_track(self):
         print("track playing on vs off")
