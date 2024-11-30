@@ -257,7 +257,7 @@ class SoundDeviceController(QMainWindow):
         if self.record_button.text() == "Start Recording" and self.play_button.text() == "Play Sound":
             current_track = self.track_combo.currentText()
             url = s3test.get_presigned_url(s3test.bucket_name, current_track)
-            self.vlc_process = subprocess.Popen(["vlc", "--play-and-exit", url])  # Start subprocess for VLC
+            self.vlc_process = subprocess.Popen(["vlc", "-I", "dummy", "--play-and-exit", url])  # Start subprocess for VLC
             self.is_playing = True  # Mark audio as playing
         # Show a warning modal if either is true
         else:
