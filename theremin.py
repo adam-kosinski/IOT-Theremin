@@ -46,7 +46,7 @@ class Theremin():
         # create and boot the audio server
         self.s = Server(duplex=0, buffersize=1024)
         self.s.setOutputDevice(1)
-        self.s.amp = 0.6
+        self.s.amp = 1
         self.s.boot().start()
 
         # interpolating signals to control base frequency and volume
