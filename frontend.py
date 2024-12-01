@@ -278,7 +278,10 @@ class SoundDeviceController(QMainWindow):
     def on_upload_error(self, error_message):
         print(error_message)  # Display the error message
         QMessageBox.critical(self, "Upload Error", error_message, QMessageBox.Ok)
-
+        self.record_button.setText("Start Recording")
+        self.record_button.setStyleSheet(
+            "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
+        )
             
     
     def toggle_track(self):
