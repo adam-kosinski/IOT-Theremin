@@ -2,7 +2,7 @@ import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QFrame, QSizePolicy, QMessageBox, QComboBox
 from PyQt5.QtGui import QIcon, QPalette, QColor
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from waveforms import waveform_dict as wd
 from theremin import Theremin
 import time
@@ -12,10 +12,34 @@ import subprocess
 theremin_t = None
 sound_file = ""
 
+class UploadWorker(QThread):
+    # Signal to notify about file upload status
+    upload_done = pyqtSignal(str)
+    upload_error = pyqtSignal(str)
+
+    def __init__(self, file_name, bucket_name):
+        super().__init__()
+        self.file_name = file_name
+        self.bucket_name = bucket_name
+
+    def run(self):
+        try:
+            # Upload the recording to S3
+            print(f"Uploading {self.file_name} to {self.bucket_name}")
+            s3test.upload_to_s3(self.file_name, self.bucket_name)
+            # Delete the local file after upload
+            os.remove(self.file_name)
+            print(f"Deleted local file: {self.file_name}")
+            self.upload_done.emit(f"Upload complete: {self.file_name}")
+        except Exception as e:
+            # If there's an error, signal it
+            self.upload_error.emit(f"Error uploading or deleting file {self.file_name}: {e}")
+
+
+
 class SoundDeviceController(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.is_playing = False  # Track if audio is playing
         self.vlc_process = None
         self.initUI()
 
@@ -222,35 +246,48 @@ class SoundDeviceController(QMainWindow):
             )
             sound_file = f"recording_{int(time.time())}.wav"
             theremin_t.start_recording(sound_file)
-        else:
+        elif self.record_button.text() == "Stop Recording":
             print("Stopping recording...")
             self.record_button.setText("Uploading!!!")
             self.record_button.setStyleSheet(
                 "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
             )
             theremin_t.stop_recording()
-            print("uploading ", sound_file)
-            s3test.upload_to_s3(sound_file, s3test.bucket_name)
-            try:
-                os.remove(sound_file)
-                print(f"Deleted local file: {sound_file}")
-            except OSError as e:
-                print(f"Error deleting file {sound_file}: {e}")
-            self.refresh_tracks()
-            self.record_button.setText("Start Recording")
+
+            # Start the upload worker to handle file upload and deletion in the background
+            self.upload_worker = UploadWorker(sound_file, s3test.bucket_name)
+            self.upload_worker.upload_done.connect(self.on_upload_done)
+            self.upload_worker.upload_error.connect(self.on_upload_error)
+            self.upload_worker.start()  # Start the worker thread
+
+        else:
+            QMessageBox.warning(self, "Warning", 
+                            "Uploading in progress, please wait until uploading is finished to start a new recording", 
+                            QMessageBox.Ok)
+
+    def on_upload_done(self, message):
+        print(message)  # You can use this to display the success message or update the UI
+        
+        self.record_button.setText("Start Recording")
+        self.record_button.setStyleSheet(
+            "background-color: #e67e22; color: #ffffff; border-radius: 10px; padding: 10px; font-size: 14px;"
+        )
+        # Optionally, refresh track list after successful upload
+        self.refresh_tracks()
+
+    def on_upload_error(self, error_message):
+        print(error_message)  # Display the error message
+        QMessageBox.critical(self, "Upload Error", error_message, QMessageBox.Ok)
 
             
     
     def toggle_track(self):
         print("track playing on vs off")
 
-        if self.is_playing:
-            if self.vlc_process:
-            # Terminate the VLC process to stop the audio
-                self.vlc_process.terminate()  
-                self.vlc_process = None  # Clear the process reference
-            
-            self.is_playing = False  # Mark audio as stopped
+        if self.vlc_process:
+        # Terminate the VLC process to stop the audio
+            self.vlc_process.terminate()  
+            self.vlc_process = None  # Clear the process reference
             print("Audio playback stopped.")
             return
 
@@ -259,14 +296,11 @@ class SoundDeviceController(QMainWindow):
             current_track = self.track_combo.currentText()
             url = s3test.get_presigned_url(s3test.bucket_name, current_track)
             self.vlc_process = subprocess.Popen(["vlc", "-I", "dummy", "--play-and-exit", url])  # Start subprocess for VLC
-            self.is_playing = True  # Mark audio as playing
         # Show a warning modal if either is true
         else:
             QMessageBox.warning(self, "Warning", 
                             "Please stop playing or recording sound before listening to a previously recorded track.", 
                             QMessageBox.Ok)
-
-        return
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
