@@ -12,11 +12,26 @@ import signal
 from threading import Timer
 
 SENSOR_SAMPLE_PERIOD_SEC = 0.100
+
 AUTOTUNE = True
+CHROMATIC_SCALE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]  # include top octave note because might round up
+MAJOR_SCALE = [0, 2, 4, 5, 7, 9, 11, 12]
+HARMONIC_MINOR_SCALE = [0, 2, 3, 5, 7, 8, 11, 12]
+AUTOTUNE_SCALE = MAJOR_SCALE
+
 MAX_DIST_CM = 80
 CM_PER_SEMITONE = 1.5
 CM_PER_DB = 0.4
 FREQ_AT_20_CM = 440
+
+
+def autotune_semitone_delta(semitone_delta):
+    # semitone delta is a continuous value = how many semitones from the reference frequency we are
+    # returns this value rounded to the nearest valid pitch
+    semitone_delta_in_scale = semitone_delta % 12
+    idx = np.abs(np.array(AUTOTUNE_SCALE) - semitone_delta_in_scale).argmin()
+    correct_semitone_delta_in_scale = AUTOTUNE_SCALE[idx]
+    return semitone_delta - semitone_delta_in_scale + correct_semitone_delta_in_scale
 
 
 # class to record a signal and fade in / fade out at the ends to prevent clicking
@@ -95,7 +110,7 @@ class Theremin():
             # closer to the sensor should be higher pitched, like real theremins
             semitones_delta = (20 - pitch_cm) / CM_PER_SEMITONE
             if AUTOTUNE:
-                semitones_delta = int(semitones_delta)
+                semitones_delta = autotune_semitone_delta(semitones_delta)
             # set frequency
             self.freq.setValue(FREQ_AT_20_CM * 2**(semitones_delta / 12))
 
