@@ -40,8 +40,8 @@ def tremolo(freq, volume):
 
 def supersaw(freq, volume):
     mix = Mix([
-        LFO(freq, mul=volume, type=0, sharp=0.4),
-        LFO(2*freq, mul=0.3*volume, type=0, sharp=0.2),
+        LFO(freq, mul=volume, type=0, sharp=0.3),
+        LFO(2*freq, mul=0.3*volume, type=0, sharp=0),
         ])
     return Freeverb(Chorus(mix), size=0, damp=0, bal=0.25)
 
