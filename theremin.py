@@ -17,6 +17,7 @@ AUTOTUNE = True
 CHROMATIC_SCALE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]  # include top octave note because might round up
 MAJOR_SCALE = [0, 2, 4, 5, 7, 9, 11, 12]
 HARMONIC_MINOR_SCALE = [0, 2, 3, 5, 7, 8, 11, 12]
+PENTATONIC_SCALE = [0, 2, 4, 7, 9, 12]
 AUTOTUNE_SCALE = MAJOR_SCALE
 
 MAX_DIST_CM = 80
