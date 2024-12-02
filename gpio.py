@@ -1,11 +1,12 @@
 import RPi.GPIO as GPIO
 import time
 
-PITCH_TRIG = 24
-PITCH_ECHO = 23
+PITCH_TRIG = 27
+PITCH_ECHO = 17
 
-VOLUME_ECHO = 17
-VOLUME_TRIG = 27
+VOLUME_TRIG = 24
+VOLUME_ECHO = 23
+
 
 t_start = {}
 def handle_edge(pin):
